@@ -81,7 +81,7 @@ class Player:
             self.new_x += self.x_speed * dt
         if keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.new_x -= self.x_speed * dt
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.KEYDOWN and (event.key == pygame.K_SPACE or keys[pygame.K_UP]):
             if self.on_ground:
                 # JUMP MECHANIC NEEDS ADJUSTING FOR DIFFERING FRAMERATE #
                 self.y_speed = -400
