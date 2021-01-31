@@ -20,28 +20,22 @@ def create_path(length, randomized=True, preset=None):
 
 def door_movement(player, door_number, room_position, door_entrances):
     """ Sets the Player and Room (Surface) positions upon stage transition. """
-    print(door_entrances)
     if door_number == 1:
-        print(door_entrances)
         player.x = door_entrances[3][0]
         player.y = door_entrances[3][1]
-        # Player in correct position, Camera Not
         room_position[0] = player.x - door_entrances[3][0]
         room_position[1] = player.y - door_entrances[3][1]
     elif door_number == 2:
-        print(door_entrances)
         player.x = door_entrances[4][0]
         player.y = door_entrances[4][1]
         room_position[0] = player.x - door_entrances[4][0]
         room_position[1] = player.y - door_entrances[4][1]
     elif door_number == 3:
-        print(door_entrances)
         player.x = door_entrances[1][0]
         player.y = door_entrances[1][1]
         room_position[0] = player.x - door_entrances[1][0]
         room_position[1] = player.y - door_entrances[1][1]
     elif door_number == 4:
-        print(door_entrances)
         player.x = door_entrances[2][0]
         player.y = door_entrances[2][1]
         room_position[0] = player.x - door_entrances[2][0]
@@ -62,10 +56,10 @@ def map_to_rect(col_map):
         x = 0
         for tile in row:
             if tile == '1':
-                a = (x * 20, y * 20, 20, 20)
+                a = r(x * 20, y * 20, 20, 20)
                 list_a.append(a)
             if tile == '2':
-                b = (x * 20, y * 20, 20, 20)
+                b = r(x * 20, y * 20, 20, 20)
                 list_b.append(b)
             x += 1
         y += 1
@@ -77,6 +71,7 @@ def create_room(layer, size, model):
     plat_list = []
     door_list = {}
     door_entrances = {}
+    damage_list = []
     level_border = []
     if layer == 0:
         plat_list = [r(0, 0, 20, 600), r(20, 0, 780, 20), r(780, 20, 20, 580), r(20, 580, 760, 20)]
@@ -86,17 +81,17 @@ def create_room(layer, size, model):
         if size == 11:
             level_border = [0, 0, 1600, 1200]
             if model == 1:
-                # MANUAL COODRS METHOD
-                plat_list = [r(60, 560, 20, 120), r(0, 660, 60, 20), r(0, 840, 360, 20), r(340, 860, 40, 20),
-                             r(360, 880, 80, 20), r(420, 900, 20, 120), r(440, 1000, 20, 40), r(460, 1020, 20, 40),
-                             r(480, 1040, 40, 20), r(500, 1060, 60, 20), r(540, 1080, 100, 20), r(620, 1100, 100, 20),
-                             r(700, 1120, 300, 20), r(960, 1100, 60, 20), r(980, 1140, 20, 60), r(1160, 1120, 20, 80),
-                             r(1180, 1120, 40, 20), r(1200, 1080, 20, 40), r(1220, 1080, 180, 20),
-                             r(1380, 1060, 40, 20), r(1400, 1040, 40, 20), r(1420, 1020, 40, 20),
-                             r(1440, 1000, 100, 20), r(1520, 800, 20, 200), r(1500, 780, 20, 40), r(1460, 780, 40, 20),
-                             r(1400, 760, 80, 20), r(1280, 740, 140, 20)]
-                door_list = {1: r(480, 0, 160, 40), 2: r(1560, 480, 60, 120), 3: r(1000, 1160, 160, 60), 4: r(0, 680, 40, 160)}
-                door_entrances = {1: [600, 240], 2: [1500, 420], 3: [1000, 1055], 4: [80, 780]}
+                # Platforms
+                platforms = map_to_rect(Lists.r1)
+                for p in platforms[0]:
+                    plat_list.append(p)
+                for s in platforms[1]:
+                    damage_list.append(s)
+
+                # Doors
+                door_list = {1: r(480, 0, 160, 40), 2: r(1560, 480, 60, 120), 3: r(1000, 1160, 160, 60),
+                             4: r(0, 680, 40, 160)}
+                door_entrances = {1: [500, 100], 2: [1500, 500], 3: [1000, 1050], 4: [80, 780]}
             elif model == 2:
                 plat_list = []
                 door_list = []
@@ -176,6 +171,4 @@ def create_room(layer, size, model):
     # elif layer == -1:
     # elif layer == -2:
 
-    print(door_entrances)
-
-    return plat_list, door_list, door_entrances, level_border
+    return plat_list, door_list, door_entrances, damage_list, level_border
