@@ -82,19 +82,19 @@ while Running:
             door_num = d
             door_rect = door_dict[door_num]
             if door_rect.colliderect(player.hitbox):
-                room_count_total += 1
-                if cur_step <= len(path):
+                player.y_speed = 0
+                if cur_step + 1 < len(path):
                     if door_num != path[cur_step]:
                         room = Utility.create_room(cur_level, 11, 0)
                     elif door_num == path[cur_step]:
                         cur_step += 1
                         # room_size = random.choice((11, 12, 21, 22))
                         room_size = 11
-                        #room_model = random.randint(1, 5)
+                        # room_model = random.randint(1, 5)
                         room_model = 1
                         room = Utility.create_room(cur_level, room_size, room_model)
-                elif cur_step > len(path):
-                    cur_level += 1
+                elif cur_step + 1 >= len(path):
+                    # cur_level += 1
                     cur_step = 0
                     path = Utility.create_path(4)
                     room = Utility.create_room(cur_level, 11, 0)
@@ -103,7 +103,7 @@ while Running:
                 platform_list = room[0]
                 door_dict = room[1]
                 door_pos = room[2]
-                print(room)
+                spike_list = room[3]
                 Room_position = Utility.door_movement(player, door_num, Room_position, door_pos)
 
     # INPUT #
@@ -161,10 +161,10 @@ while Running:
 
     # Debug
     if Debug:
-        text_height = draw_text("Room Type = {0}, {1}, {2}".format(cur_level, room_size, room_model), 0, 0)
-        draw_text("Path = {0}, Step = {1}, Door {2}".format(path, cur_step, path[cur_step]), 0, text_height)
-        draw_text("Room (X,Y) = {0}, {1}".format(int(Room_position[0]), int(Room_position[1])), 0, 2 * text_height)
-        draw_text("Player (X,Y) = {0}, {1}".format(int(player.x), int(player.y)), 0, 3 * text_height)
+        text_height = draw_text("Room Type = {0}, {1}, {2}".format(cur_level, room_size, room_model), 10, 16)
+        draw_text("Path = {0}, Step = {1}".format(path, cur_step), 10, 2 * text_height)
+        draw_text("Room (X,Y) = {0}, {1}".format(int(Room_position[0]), int(Room_position[1])), 10, 3 * text_height)
+        draw_text("Player (X,Y) = {0}, {1}".format(int(player.x), int(player.y)), 10, 4 * text_height)
     if cur_level == 0:
         button_list['Play_Button'].draw(window, pygame.font.SysFont("Courier New", 64), '  PLAY')
         button_list['Quit_Button'].draw(window, pygame.font.SysFont("Courier New", 32), '  QUIT')
