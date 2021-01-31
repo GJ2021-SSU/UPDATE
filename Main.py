@@ -63,7 +63,7 @@ font = pygame.font.SysFont("Courier New", 16)
 # GAME LOOP
 while Running:
     # UPDATE #
-    delta_time = clock.tick(60) / 1000
+    delta_time = clock.tick(1000) / 1000
     event = pygame.event.poll()
     keys = pygame.key.get_pressed()
 
