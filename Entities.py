@@ -59,20 +59,21 @@ class Player:
         self.y = y
         self.new_x = x
         self.new_y = y
-        self.size = 50
+        self.height = 60
+        self.width = 40
         self.x_speed = 200
         self.y_speed = 0
         self.x_acceleration = None
         self.y_acceleration = 400
         self.y_collision = False
         self.x_collision = False
-        self.hitbox = pygame.Rect(self.x, self.y, self.size, self.size)
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
         self.on_ground = True
         self.double_jump = True
 
     def update(self, event, keys, dt, room):
         # Hitbox Update
-        self.hitbox = pygame.Rect(self.x, self.y, self.size, self.size)
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
         self.new_x = self.x
         self.new_y = self.y
 
@@ -101,7 +102,7 @@ class Player:
         self.on_ground = False
 
         # X - Collision
-        self.hitbox = pygame.Rect(self.new_x, self.y, self.size, self.size)
+        self.hitbox = pygame.Rect(self.new_x, self.y, self.width, self.height)
         for p in platform_list:
             if p.colliderect(self.hitbox):
                 self.x_collision = True
@@ -110,7 +111,7 @@ class Player:
             self.x = self.new_x
 
         # Y - Collision
-        self.hitbox = pygame.Rect(self.x, self.new_y, self.size, self.size)
+        self.hitbox = pygame.Rect(self.x, self.new_y, self.width, self.height)
         for p in platform_list:
             if p.colliderect(self.hitbox):
                 self.y_collision = True
@@ -118,14 +119,14 @@ class Player:
                 if p[1] >= self.new_y:
                     self.on_ground = True
                     self.double_jump = True
-                if p[1] > self.y + self.size:
-                    self.y = p[1] - self.size
+                if p[1] > self.y + self.height:
+                    self.y = p[1] - self.height
                 break
         if not self.y_collision:
             self.y = self.new_y
 
         # Item Collision
-        self.hitbox = pygame.Rect(self.x, self.y, self.size, self.size)
+        self.hitbox = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def draw(self, surface, image_list, debug=False):
         pygame.draw.rect(surface, (100, 100, 255), self.hitbox, 1)
@@ -133,3 +134,4 @@ class Player:
         if debug:
             pygame.draw.rect(surface, (255, 50, 50), self.hitbox, 1)
             pygame.draw.circle(surface, (255, 255, 255), (self.x, self.y), 1, 0)
+
